@@ -1,3 +1,7 @@
+permissions:
+  issues: write
+  contents: write
+
 name: 钓鱼日志记录
 on: [repository_dispatch]
 jobs:
@@ -6,8 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: 创建日志Issue
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_PAT }}  # 用你的PAT替换默认TOKEN
         uses: actions/github-script@v6
         with:
           script: |
